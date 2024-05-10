@@ -1,0 +1,242 @@
+Original 1:
+Resizing(640, 640)
+from_logits=True
+iou_threshold=0.2
+confidence_threshold=0.7
+
+На изображении, показаны три Potted Plant и одна Dog.
+
+-------------------------------------------------------------------------------
+
+Primer 1:
+Resizing(640, 640)
+from_logits=True
+iou_threshold=0.2
+confidence_threshold=0.2 # Изменение с 0.7 на 0.2
+
+Находит намного больше. Лишнее находит. Не точные данные по Уверенности.
+
+Макс 0.7281444072723389, Мин 0.5000202059745789
+Dog,Potted Plant,Potted Plant,Potted Plant,Chair,Bottle,Bottle,Aeroplane,Bottle,Bottle,Bottle,Bird,Bird,Bottle,Dog,Sheep,Bottle,Bottle,Sheep,Aeroplane,Bottle,Bird,Dog,Aeroplane,Bottle,Bottle,Bird,Potted Plant,Bottle,Bird,Potted Plant,Horse,Sheep,Bottle,Person,Bottle,Bottle,Bottle,Sofa,Bottle,Person,Bottle,Bird,Bottle,Dog,Car,Bird,Bottle,Potted Plant,Bottle,Bicycle,Dining Table,Person,Aeroplane,Dining Table,Train,Bird,Bottle,Car,Dog,Aeroplane,Potted Plant,Sheep,Dog,Train,Bottle,Bottle,Aeroplane,Bottle,Train,Bird,Person,Bottle,Bicycle,Cow,Person,Potted Plant,Sheep,Aeroplane,Car,Bottle,Cat,Person,Chair,Aeroplane,Train,Aeroplane,Bird,Bottle,Sheep,Dining Table,Train,Aeroplane,Bus,Dog,Motorbike,Dining Table,Dog,Bottle,Aeroplane
+
+-------------------------------------------------------------------------------
+
+Primer 2:
+Resizing(640, 640)
+from_logits=True
+iou_threshold=0.2
+confidence_threshold=0.52 # Изменение с 0.7 на 0.52
+
+При значении confidence_threshold 0.52, нашлась Chair.
+
+-------------------------------------------------------------------------------
+
+Primer 3:
+Resizing(1280, 1280) # Изменение с 640, 640 на 1280, 1280
+from_logits=True
+iou_threshold=0.2
+confidence_threshold=0.52 # Изменение с 0.7 на 0.52
+
+При значении confidence_threshold 0.52, нашлись 3 Chair, но пропала 1 Potted Plant.
+Изменения изображения, повлияло на Уверенность нахождения объекта в изображении.
+Чем больше изображение, тем большая Уверенность. Но иногда на другие объекты понижает, что случилось с 1 Potted Plant.
+
+-------------------------------------------------------------------------------
+
+Primer 4:
+Resizing(1280, 1280) # Изменение с 640, 640 на 1280, 1280
+from_logits=True
+iou_threshold=0.2
+confidence_threshold=0.7
+
+Отсылаясь на Primer 3, на изображении нашлись только Chair, Dog, Potted Plant, а 2 Potted Plant, не стал захватывать, так как они ниже confidence_threshold=0.7.
+
+-------------------------------------------------------------------------------
+
+Primer 5:
+Resizing(1280, 1280) # Изменение с 640, 640 на 1280, 1280
+from_logits=True
+iou_threshold=0.97 # Изменение с 0.2 на 0.97
+confidence_threshold=0.51 # Изменение с 0.7 на 0.51
+
+Повторно захватывает изображения.
+Где Dog, рамки захватили всю Dog, и голову Dog.
+Голова Dog 0.52, а Dog 0.72
+У Chair, ножка Chair 0.64, а Chair 0.51
+Большая часть рамок, захвачены одним объектом.
+Была захвачена другая ножка Chair.
+
+-------------------------------------------------------------------------------
+
+Primer 6:
+Resizing(1280, 1280) # Изменение с 640, 640 на 1280, 1280
+from_logits=True
+iou_threshold=0.2
+confidence_threshold=0.505 # Изменение с 0.7 на 0.505
+
+При понижении confidence_threshold на 0.505, были захвачены Chair, Dog, Potted Plant, Chair, Chair, Potted Plant, Potted Plant
+Max 0.728, Min 0.505
+Potted Plant 0.505, был меньше Уверенным, чем другие Potted Plant
+Была захвачена другая ножка Chair.
+
+-------------------------------------------------------------------------------
+
+Primer 7:
+Resizing(1280, 1280) # Изменение с 640, 640 на 1280, 1280
+from_logits=True
+iou_threshold=0.0 # Изменение с 0.2 на 0.0
+confidence_threshold=0.505 # Изменение с 0.7 на 0.505
+
+Primer 8:
+Resizing(1280, 1280) # Изменение с 640, 640 на 1280, 1280
+from_logits=True
+iou_threshold=1.0 # Изменение с 0.2 на 1.0
+confidence_threshold=0.505 # Изменение с 0.7 на 0.505
+
+Разницы между Primer 7 и Primer 8, не заметил.
+iou_threshold=0.0 и iou_threshold=1.0, результаты между ними очень похожи.
+
+Разница между Primer 1 и Primer 7, Primer 8
+Частично похож на Primer 5, но захват объекта Min 0.505, как в Primer 5, на Объекте, находятся более одной Рамки Захвата.
+
+-------------------------------------------------------------------------------
+
+Primer 9:
+Resizing(1280, 1280) # Изменение с 640, 640 на 1280, 1280
+from_logits=True
+iou_threshold=0.5 # Изменение с 0.2 на 0.5
+confidence_threshold=0.505 # Изменение с 0.7 на 0.505
+
+iou_threshold, чем большее значение, тем больше Рамок захвата на объектах.
+Золотая середина. Но можно было ещё изменить, для лучшего результата.
+0.728% 8 Chair
+0.727% 11 Dog
+0.706% 15 Potted Plant
+0.676% 8 Chair
+0.550% 8 Chair
+0.535% 15 Potted Plant
+0.516% 11 Dog
+0.505% 15 Potted Plant
+Все важные объекты были взяты, захвачены в рамки.
+
+-------------------------------------------------------------------------------
+
+Primer 10:
+Resizing(2560, 2560) # Изменение с 640, 640 на 2560, 2560
+from_logits=True
+iou_threshold=0.5 # Изменение с 0.2 на 0.5
+confidence_threshold=0.505 # Изменение с 0.7 на 0.505
+
+Чем большое разрешение, тем больше появляются артефакты по распознанию объекта на изображении.
+
+Sheep, это камни.
+Aeroplane, это край стола.
+Train, это барбекю.
+Bird, Person, Cat, Train.
+Всё это, артефакты. Появляются больше неточностей.
+ 
+-------------------------------------------------------------------------------
+
+Primer 11:
+Resizing(2560, 2560) # Изменение с 640, 640 на 2560, 2560
+from_logits=True
+iou_threshold=0.5 # Изменение с 0.2 на 0.5
+confidence_threshold=0.7
+
+Primer 4
+0.7285498380661011 8 Chair
+0.7279905080795288 11 Dog
+0.7065445184707642 15 Potted Plant
+
+Отсутствуют 2 Potted Plant.
+
+Primer 11
+0.7234443426132202 11 Dog
+0.7121996283531189 15 Potted Plant
+0.711124837398529 15 Potted Plant
+
+Отсутствуют 1 Potted Plant, и Chair, но Chair в Original 1, не был. Значит.
+Отсутствует 1 Potted Plant.
+
+Изменяется размер изображения, изменяются процент Уверенности у каждого объекта.
+Большой размер изображения, более неточный.
+Нужна золотая середина в размере изображении.
+ 
+-------------------------------------------------------------------------------
+
+Primer 12:
+Resizing(2560, 2560) # Изменение с 640, 640 на 2560, 2560
+from_logits=True
+iou_threshold=0.5 # Изменение с 0.2 на 0.5
+confidence_threshold=0.6 # Изменение с 0.7 на 0.6
+
+0.6624065637588501 16 Sheep
+0.6219698190689087 15 Potted Plant
+
+Все Potted Plant были захвачены в рамки. Но между ними,
+0.662 Sheep, был захвачен рамкой. А хотя, это камень.
+Большой размер изображения, более неточный. Больше артефактов.
+ 
+-------------------------------------------------------------------------------
+
+Primer 13:
+Resizing(2560, 2560) # Изменение с 640, 640 на 2560, 2560
+from_logits=True
+iou_threshold=0.2
+confidence_threshold=0.525 # Изменение с 0.7 на 0.525
+
+Появилось больше Sheep и 1 Bottle. Всё это, камни.
+Модель приняла камни, за sheep и bottle.
+Большой размер изображения, более неточный. Больше артефактов.
+ 
+-------------------------------------------------------------------------------
+
+Primer 14:
+Resizing(640, 640)
+from_logits=True
+iou_threshold=0.2
+confidence_threshold=0.525 # Изменение с 0.7 на 0.525
+
+Сохранение и загрузка модели yolov8_me1.pt, прошла успешно.
+На изображении, была захвачена вместе с Dog и 3 Potted Plant, ещё Chair, при размере 640 на 640.
+Уверенность у Chair, 0.53%.
+ 
+-------------------------------------------------------------------------------
+
+Primer 15:
+Resizing(2048, 2048) # Изменение с 640, 640 на 2048, 2048
+from_logits=False # Изменение с True на False
+iou_threshold=0.2
+confidence_threshold=0.505 # Изменение с 0.7 на 0.505
+
+Не было замеченно изменений. По захвату объектов в рамки.
+
+0.7281444072723389 11 Dog
+0.727109432220459 15 Potted Plant
+0.7050243020057678 15 Potted Plant
+0.7004843354225159 15 Potted Plant
+0.5318573713302612 8 Chair
+ 
+-------------------------------------------------------------------------------
+
+Primer 16:
+Resizing(2048, 2048) # Изменение с 640, 640 на 2048, 2048
+from_logits=False # Изменение с True на False
+iou_threshold=0.2
+confidence_threshold=0.7
+
+Не было замеченно изменений. По захвату объектов в рамки.
+
+0.7281444072723389 11 Dog
+0.727109432220459 15 Potted Plant
+0.7050243020057678 15 Potted Plant
+0.7004843354225159 15 Potted Plant
+0.5318573713302612 8 Chair
+
+
+-------------------------------------------------------------------------------
+
+Итог.
+Изменение размер изображения, confidence_threshold, iou_threshold, меняет значение Уверенности объектов.
+Чем больше изображения, тем больше появляются артефактов.
+Значение у iou_threshold, на 0.0 и 1.0, различий не увидел.
